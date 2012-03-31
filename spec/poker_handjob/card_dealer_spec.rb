@@ -42,7 +42,6 @@ describe "CardDealer" do
   it "can deal a specified number of cards" do
     deck = Deck.please
     hand = deck.deal(10)
-    puts hand
     hand.size.should be == 10
   end
   it "should give a new, shuffled deck" do

@@ -6,6 +6,10 @@ class Card
     @rank = rank
   end
 
+  def inspect
+    ["#{rank}, #{suit}"]
+  end
+
   def to_s
     "A #{rank} of #{suit}"
   end
@@ -47,6 +51,7 @@ class Deck
 
   def add_card(card)
     deck << card
+    self
   end
 
   def count
@@ -57,7 +62,12 @@ class Deck
     deck
   end
 
-  def deal(number_of_cards=5)
+  def sort
+    deck.sort
+  end
+
+  def draw(number_of_cards=5)
     deck.pop(number_of_cards)
   end
+  alias deal draw
 end
