@@ -15,7 +15,7 @@ describe "HandReader" do
   let(:straight_flush_deck) { Deck.new.add_cards("10 of Diamonds", "Jack of Diamonds", "Ace of Diamonds", "King of Diamonds", "Queen of Diamonds") }
 
   it "can identify the High Card" do
-    HandReader.new(high_card_deck).high_card.should == Card.new("King", "Spades")
+    HandReader.new(high_card_deck).is_high_card?.should be_true
   end
   it "can identify One Pair" do
     HandReader.new(one_pair_deck).is_one_pair?.should be_true
@@ -43,31 +43,42 @@ describe "HandReader" do
   end
 
   it "can identify the best hand as a Straight Flush" do
-    HandReader.read(straight_flush_deck).should == "Straight Flush"
+   HandReader.read(straight_flush_deck).type.should == "Straight Flush"
   end
   it "can identify the best hand as Four of a Kind" do
-    HandReader.read(four_of_a_kind_deck).should == "Four of a Kind"
+    HandReader.read(four_of_a_kind_deck).type.should == "Four of a Kind"
   end
   it "can identify the best hand as a Full House" do
-    HandReader.read(full_house_deck).should == "Full House"
+    HandReader.read(full_house_deck).type.should == "Full House"
   end
   it "can identify the best hand as a Flush" do
-    HandReader.read(flush_deck).should == "Flush"
+    HandReader.read(flush_deck).type.should == "Flush"
   end
   it "can identify the best hand as a Straight" do
-    HandReader.read(straight_deck).should == "Straight"
+    HandReader.read(straight_deck).type.should == "Straight"
   end
   it "can identify the best hand as Three of a Kind" do
-    HandReader.read(three_of_a_kind_deck).should == "Three of a Kind"
+    HandReader.read(three_of_a_kind_deck).type.should == "Three of a Kind"
   end
   it "can identify the best hand as Two Pair" do
-    HandReader.read(two_pair_deck).should == "Two Pair"
+    HandReader.read(two_pair_deck).type.should == "Two Pair"
   end
   it "can identify the best hand as One Pair" do
-    HandReader.read(one_pair_deck).should == "One Pair"
+    HandReader.read(one_pair_deck).type.should == "One Pair"
   end
   it "can identify the best hand as the High Card" do
-    HandReader.read(high_card_deck).should == "High Card: A King of Spades"
+    HandReader.read(high_card_deck).type.should == "High Card"
   end
+
+  # it "lets me show debug output" do
+  #   p HandReader.new(one_pair_deck).is_one_pair?
+  #   p HandReader.new(two_pair_deck).is_two_pair?
+  #   p HandReader.new(three_of_a_kind_deck).is_three_of_a_kind?
+  #   p HandReader.new(straight_deck).is_straight?
+  #   p HandReader.new(flush_deck).is_flush?
+  #   p HandReader.new(full_house_deck).is_full_house?
+  #   p HandReader.new(four_of_a_kind_deck).is_four_of_a_kind?
+  #   p HandReader.new(straight_flush_deck).is_straight_flush?
+  # end
 end
 
