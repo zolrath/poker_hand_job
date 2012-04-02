@@ -10,12 +10,20 @@ class HandJudge
   end
 
   def rank
-    @hands.sort!
+    hands.sort!.reverse!
+    self
+  end
+
+  def results
+    puts "Results:"
+    hands.each_with_index do |hand,index|
+      puts "#{index+1}: #{hand.type}:#{hand.value_name}"
+    end
     self
   end
 
   def winner
-    @hands.last
+    hands.first
   end
 
   def to_s
