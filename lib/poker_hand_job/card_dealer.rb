@@ -53,11 +53,14 @@ class Deck
     return [card[:rank], card[:suit]]
   end
 
+  def add_card(card)
+    card = parse(card)
+    deck << Card.new(card[0], card[1])
+    self
+  end
+
   def add_cards(*cards)
-    cards.each do |card|
-      card = parse(card)
-      deck << Card.new(card[0], card[1])
-    end
+    cards.map { |card| add_card(card) }
     self
   end
 
