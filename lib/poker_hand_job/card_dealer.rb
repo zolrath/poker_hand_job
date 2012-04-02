@@ -38,7 +38,7 @@ class Deck
     new_deck = Deck.new
     %w[Clubs Hearts Diamonds Spades].each do |suit|
       %w[2 3 4 5 6 7 8 9 10 Jack Queen King Ace].each do |rank|
-        new_deck.add_card(Card.new(rank, suit))
+        new_deck.add_cards("#{rank} of #{suit}")
       end
     end
     new_deck.shuffle
@@ -49,8 +49,16 @@ class Deck
     deck.shuffle!
   end
 
-  def add_card(card)
-    deck << card
+  def parse(text)
+    card = text.match /(?<rank>\w+) of (?<suit>\w+)/
+    return [card[:rank], card[:suit]]
+  end
+
+  def add_cards(*cards)
+    cards.each do |card|
+      card = parse(card)
+      deck << Card.new(card[0], card[1])
+    end
     self
   end
 

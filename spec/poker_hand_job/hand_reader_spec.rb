@@ -2,51 +2,17 @@ require_relative '../../lib/poker_hand_job/hand_reader'
 
 describe "HandReader" do
   let(:deck) { Deck.please }
-  let(:high_card_deck) do
-    new_deck = Deck.new
-    new_deck.add_card(Card.new(5, "Hearts")).add_card(Card.new(4, "Spades")).add_card(Card.new(10, "Diamonds")).
-      add_card(Card.new("King", "Spades")).add_card(Card.new(2, "Diamonds"))
-  end
-  let(:one_pair_deck) do
-    new_deck = Deck.new
-    new_deck.add_card(Card.new(4, "Hearts")).add_card(Card.new(4, "Spades")).add_card(Card.new(10, "Diamonds")).
-             add_card(Card.new("King", "Spades")).add_card(Card.new(2, "Diamonds"))
-  end
-  let(:two_pair_deck) do
-    new_deck = Deck.new
-    new_deck.add_card(Card.new(4, "Hearts")).add_card(Card.new(4, "Spades")).add_card(Card.new(10, "Diamonds")).
-      add_card(Card.new("King", "Spades")).add_card(Card.new(10, "Diamonds"))
-  end
-  let(:three_of_a_kind_deck) do
-    new_deck = Deck.new
-    new_deck.add_card(Card.new(4, "Hearts")).add_card(Card.new(4, "Spades")).add_card(Card.new(4, "Diamonds")).
-      add_card(Card.new("King", "Spades")).add_card(Card.new(2, "Diamonds"))
-  end
-  let(:straight_deck) do
-    new_deck = Deck.new
-    new_deck.add_card(Card.new("Ace", "Hearts")).add_card(Card.new(2, "Spades")).add_card(Card.new(3, "Diamonds")).
-      add_card(Card.new(4, "Spades")).add_card(Card.new(5, "Diamonds"))
-  end
-  let(:flush_deck) do
-    new_deck = Deck.new
-    new_deck.add_card(Card.new(4, "Spades")).add_card(Card.new(4, "Spades")).add_card(Card.new(4, "Spades")).
-      add_card(Card.new("King", "Spades")).add_card(Card.new(2, "Spades"))
-  end
-  let(:full_house_deck) do
-    new_deck = Deck.new
-    new_deck.add_card(Card.new(4, "Hearts")).add_card(Card.new(4, "Spades")).add_card(Card.new(4, "Diamonds")).
-      add_card(Card.new(2, "Spades")).add_card(Card.new(2, "Diamonds"))
-  end
-  let(:four_of_a_kind_deck) do
-    new_deck = Deck.new
-    new_deck.add_card(Card.new(4, "Hearts")).add_card(Card.new(4, "Spades")).add_card(Card.new(4, "Diamonds")).
-      add_card(Card.new("King", "Spades")).add_card(Card.new(4, "Diamonds"))
-  end
-  let(:straight_flush_deck) do
-    new_deck = Deck.new
-    new_deck.add_card(Card.new(10, "Diamonds")).add_card(Card.new("Jack", "Diamonds")).add_card(Card.new("Queen", "Diamonds")).
-      add_card(Card.new("King", "Diamonds")).add_card(Card.new("Ace", "Diamonds"))
-  end
+  let(:high_card_deck) { Deck.new.add_cards("5 of Hearts", "4 of Spades", "10 of Diamonds", "King of Spades", "2 of Clubs") }
+  let(:one_pair_deck) { Deck.new.add_cards("6 of Hearts", "6 of Spades", "10 of Diamonds","King of Spades", "2 of Diamonds") }
+  let(:one_pair_deck_low) { Deck.new.add_cards("3 of Hearts", "3 of Spades", "10 of Diamonds", "King of Spades", "2 of Diamonds") }
+  let(:two_pair_deck) { Deck.new.add_cards("4 of Hearts", "4 of Spades", "10 of Diamonds", "King of Spades", "10 of Hearts") }
+  let(:three_of_a_kind_deck) { Deck.new.add_cards("4 of Hearts", "4 of Clubs", "Ace of Diamonds", "King of Spades", "4 of Diamonds") }
+  let(:straight_deck) { Deck.new.add_cards("Ace of Hearts", "2 of Spades", "3 of Diamonds", "4 of Spades", "5 of Hearts") }
+  let(:flush_deck) { Deck.new.add_cards("4 of Spades", "2 of Spades", "9 of Spades", "6 of Spades", "King of Spades") }
+  let(:full_house_deck) { Deck.new.add_cards("King of Hearts", "King of Spades", "2 of Clubs", "King of Diamonds", "2 of Spades") }
+  let(:full_house_deck_low) { Deck.new.add_cards("3 of Hearts", "3 of Spades", "2 of Clubs", "3 of Diamonds", "2 of Spades") }
+  let(:four_of_a_kind_deck) { Deck.new.add_cards("4 of Hearts", "4 of Diamonds", "4 of Spades", "King of Spades", "4 of Clubs") }
+  let(:straight_flush_deck) { Deck.new.add_cards("10 of Diamonds", "Jack of Diamonds", "Ace of Diamonds", "King of Diamonds", "Queen of Diamonds") }
 
   it "can identify the High Card" do
     HandReader.new(high_card_deck).high_card.should == Card.new("King", "Spades")
