@@ -60,15 +60,27 @@ class HandReader
     hands.each{ |is_hand| return hand.send(is_hand) if hand.send(is_hand) }
   end
 
+
+  def suit
+    hand.map(&:suit).uniq!
+  end
+
+  def values
+    hand.map(&:value)
+  end
+
+  def group_cards
+    hand.each_with_object(Hash.new(0)) do |card, hash|
+      hash[card.value] +=1
+    end
+  end
+
   def is_high_card?
     Hand.new("High Card", hand, hand.last.value)
   end
 
   def is_one_pair?
-    card_groups = hand.each_with_object(Hash.new(0)) do |card, hash|
-      hash[card.value] +=1
-    end
-    card_groups.each do |card_value, frequency|
+    group_cards.each do |card_value, frequency|
       return Hand.new("One Pair", hand, card_value) if frequency == 2
     end
     false
@@ -76,10 +88,7 @@ class HandReader
 
   def is_two_pair?
     pairs = []
-    card_groups = hand.each_with_object(Hash.new(0)) do |card, hash|
-      hash[card.value] +=1
-    end
-    card_groups.each do |card_value, frequency|
+    group_cards.each do |card_value, frequency|
       pairs << card_value if frequency == 2
       return Hand.new("Two Pair", hand, pairs.max) if pairs.count == 2
     end
@@ -87,17 +96,13 @@ class HandReader
   end
 
   def is_three_of_a_kind?
-    card_groups = hand.each_with_object(Hash.new(0)) do |card,hash|
-      hash[card.value] +=1
-    end
-    card_groups.each do |card_value, frequency|
+    group_cards.each do |card_value, frequency|
       return Hand.new("Three of a Kind", hand, card_value) if frequency == 3
     end
     false
   end
 
   def is_straight?
-    values = hand.map(&:value)
     start = hand.first.value
     if values == [*start..start+4] || values == [*start..start+3,14]
       return Hand.new("Straight", hand, values.min)
@@ -107,19 +112,14 @@ class HandReader
 
 
   def is_flush?
-    suit = hand.map(&:suit).uniq!
-    value = hand.map(&:value).max
-    return Hand.new("Flush", hand, value, suit.first) if (suit.count == 1)
+    return Hand.new("Flush", hand, values.max, suit.first) if (suit.count == 1)
     false
   end
 
   def is_full_house?
     three_match = false
-    two_match = false
-    card_groups = hand.each_with_object(Hash.new(0)) do |card,hash|
-      hash[card.value] +=1
-    end
-    card_groups.each do |card_value, frequency|
+    two_match   = false
+    group_cards.each do |card_value, frequency|
       three_match = card_value if frequency == 3
       two_match = true if frequency == 2
       if two_match == true && three_match != false
@@ -130,21 +130,14 @@ class HandReader
   end
 
   def is_four_of_a_kind?
-    card_groups = hand.each_with_object(Hash.new(0)) do |card,hash|
-      hash[card.value] +=1
-    end
-    card_groups.each do |card_value, frequency|
+    group_cards.each do |card_value, frequency|
       return Hand.new("Four of a Kind", hand, card_value) if frequency == 4
     end
     false
   end
 
   def is_straight_flush?
-    suit = hand.map(&:suit).uniq!
-    values = hand.map(&:value)
-    start = hand.first.value
-    if (values == [*start..start+4] ||
-        values == [*start..start+3,14]) && suit.count == 1
+    if is_straight? && is_flush?
       return Hand.new("Straight Flush", hand, values.min, suit.first)
     end
     false
