@@ -6,23 +6,21 @@ class Card
     @rank = rank
   end
 
-  def inspect
-    ["#{rank}, #{suit}"]
-  end
-
-  def to_s
-    "A #{rank} of #{suit}"
-  end
-
   def value
     case rank
-    when "Ace"; 14
-    when "King"; 13
-    when "Queen"; 12
-    when "Jack"; 11
+    when "Ace"   then 14
+    when "King"  then 13
+    when "Queen" then 12
+    when "Jack"  then 11
     else rank.to_i
     end
   end
+
+  def to_s
+    "#{rank} of #{suit}"
+  end
+
+  alias inspect to_s
 
   def <=>(other)
     self.value <=> other.value
