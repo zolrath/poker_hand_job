@@ -2,9 +2,13 @@ require_relative 'card_dealer'
 
 class Hand
   include Comparable
-  attr_reader :type, :hand, :value, :suit
+  attr_reader :type, :hand, :value, :value_name, :suit
   def initialize(type, hand, value, suit="Unimportant")
-    @type=type; @hand=hand; @value=value; @suit=suit
+    @type=type
+    @hand=hand
+    @value=value
+    @value_name=value_to_name(value)
+    @suit=suit
   end
 
   def rank
@@ -17,6 +21,16 @@ class Hand
     "Two Pair"        => 3,
     "One Pair"        => 2,
     "High Card"       => 1}.fetch(type, 0)
+  end
+
+  def value_to_name(value)
+    case value
+    when 14 then "Ace"
+    when 13 then "King"
+    when 12 then "Queen"
+    when 11 then "Jack"
+    else value.to_s
+    end
   end
 
   def to_s
