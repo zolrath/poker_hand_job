@@ -60,7 +60,6 @@ class HandReader
     hands.each{ |is_hand| return hand.send(is_hand) if hand.send(is_hand) }
   end
 
-
   def suit
     hand.map(&:suit).uniq!
   end
@@ -104,12 +103,11 @@ class HandReader
 
   def is_straight?
     start = hand.first.value
-    if values == [*start..start+4] || values == [*start..start+3,14]
+    if values == [*start..start+4] || values == [2,3,4,5,14]
       return Hand.new("Straight", hand, values.min)
     end
     false
   end
-
 
   def is_flush?
     return Hand.new("Flush", hand, values.max, suit.first) if (suit.count == 1)
