@@ -34,6 +34,7 @@ class Deck
   def initialize
     @deck = []
   end
+
   def self.please
     new_deck = Deck.new
     %w[Clubs Hearts Diamonds Spades].each do |suit|
@@ -62,6 +63,15 @@ class Deck
     self
   end
 
+  def draw(number_of_cards=5)
+    if deck.count < number_of_cards
+      puts "The deck only has #{deck.count} cards left to deal!"
+      return deck.pop(deck.count)
+    end
+    deck.pop(number_of_cards)
+  end
+  alias deal draw
+
   def count
     deck.count
   end
@@ -73,9 +83,4 @@ class Deck
   def sort
     deck.sort
   end
-
-  def draw(number_of_cards=5)
-    deck.pop(number_of_cards)
-  end
-  alias deal draw
 end

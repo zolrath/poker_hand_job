@@ -22,32 +22,35 @@ describe "CardDealer" do
       ten = Card.new(10, 'Diamonds')
       ten.value.should be == 10
     end
-
-    it "should know that a Ace is better than a King" do
+    it "should know that an Ace is better than a King" do
       ace = Card.new('Ace','Spades')
       king = Card.new('King','Hearts')
       ace.should be > king
     end
   end
 
+  let(:deck) { Deck.please }
+
   it "can make a proper standard deck" do
-    deck = Deck.please
     deck.count.should be == 52
   end
   it "should deal five cards at a time by default" do
-    deck = Deck.please
     hand = deck.deal
     hand.size.should be == 5
   end
   it "can deal a specified number of cards" do
-    deck = Deck.please
     hand = deck.deal(10)
     hand.size.should be == 10
+  end
+  it "should only let me deal 52 cards" do
+    deck.deal(51)
+    hand = deck.deal(5)
+    hand.count.should be == 1
   end
   it "should give a new, shuffled deck" do
     deck_one = Deck.please
     deck_two = Deck.please
-    deck_one.deal(10).should_not == deck_two.deal(10)
+    deck_one.draw(52).should_not == deck_two.draw(52)
   end
 end
 
