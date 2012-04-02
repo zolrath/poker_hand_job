@@ -1,4 +1,4 @@
-require_relative '../../lib/poker_handjob/card_dealer'
+require_relative '../../lib/poker_hand_job/card_dealer'
 
 describe "CardDealer" do
   context "Cards" do

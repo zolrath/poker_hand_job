@@ -1,3 +1,3 @@
-require_relative 'poker_handjob/card_dealer'
-require_relative 'poker_handjob/hand_reader'
-require_relative 'poker_handjob/hand_judge'
+require_relative 'poker_hand_job/card_dealer'
+require_relative 'poker_hand_job/hand_reader'
+require_relative 'poker_hand_job/hand_judge'

@@ -1,4 +1,5 @@
-require_relative '../../lib/poker_handjob/hand_judge'
+require_relative '../../lib/poker_hand_job/hand_judge'
+require_relative '../../lib/poker_hand_job/hand_reader'
 
 describe "HandJudge" do
   it "knows which hands are better than other hands"

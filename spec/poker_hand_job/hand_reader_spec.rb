@@ -1,5 +1,4 @@
-require_relative '../../lib/poker_handjob/hand_reader'
-
+require_relative '../../lib/poker_hand_job/hand_reader'
 
 describe "HandReader" do
   let(:deck) { Deck.please }
